@@ -1,4 +1,4 @@
-# SPC Frontend
+# Mathix Frontend
 
 ## Requirements
 
@@ -29,8 +29,6 @@ VITE_APP_ROOT_API=http://localhost:8000/api
 Update `VITE_APP_ROOT_API` to point to your backend URL when running in non-local environments.
 
 ## Setup
-
-Open PowerShell (Windows) in the project folder `e:\code\spc-frontend` and run:
 
 If you use npm:
 

@@ -1,0 +1,151 @@
+.login-page {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(420px, 0.84fr);
+    min-height: 100vh;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.login-illustration {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.login-illustration img {
+    position: absolute;
+    left: clamp(-86px, -6vw, -28px);
+    bottom: clamp(-58px, -5vh, -18px);
+    width: min(64vw, 760px);
+    max-width: none;
+    height: auto;
+    user-select: none;
+    pointer-events: none;
+}
+
+.login-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding: 48px 72px 48px 32px;
+}
+
+.login-form-shell {
+    width: min(100%, 535px);
+}
+
+.login-title {
+    margin: 0 0 30px !important;
+    text-align: center;
+    font-size: 30px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+}
+
+.login-form .ant-form-item {
+    margin-bottom: 20px;
+}
+
+.login-form .ant-form-item-label {
+    padding-bottom: 8px;
+}
+
+.login-form .ant-form-item-label > label {
+    height: auto;
+    color: #263445;
+    font-size: 13px;
+}
+
+.login-required-mark {
+    color: #ff4d4f;
+}
+
+.login-form .ant-input,
+.login-form .ant-input-affix-wrapper {
+    height: 32px;
+    background: #ffffff;
+    border-radius: 4px;
+}
+
+.login-form .ant-input {
+    background: #ffffff;
+}
+
+.login-form .ant-input-affix-wrapper .ant-input {
+    background: transparent;
+}
+
+.login-submit-item {
+    margin-top: 18px;
+    margin-bottom: 0 !important;
+}
+
+.login-submit-item .ant-btn,
+.login-google-button {
+    height: 40px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+.login-links {
+    margin-top: 18px;
+    font-size: 13px;
+}
+
+.login-links a {
+    color: #141414;
+}
+
+.login-divider {
+    margin: 8px 0 16px;
+    color: #141414;
+    font-size: 13px;
+}
+
+.login-google-button {
+    color: #5f6368;
+    background: #ffffff;
+}
+
+.login-google-button .anticon {
+    color: #4285f4;
+    font-size: 18px;
+}
+
+@media (max-width: 900px) {
+    .login-page {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+
+    .login-illustration {
+        min-height: 36vh;
+    }
+
+    .login-illustration img {
+        left: 50%;
+        bottom: -42px;
+        width: min(112vw, 560px);
+        transform: translateX(-50%);
+    }
+
+    .login-panel {
+        align-items: flex-start;
+        padding: 28px 24px 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-illustration {
+        min-height: 30vh;
+    }
+
+    .login-title {
+        margin-bottom: 24px !important;
+        font-size: 26px !important;
+    }
+}

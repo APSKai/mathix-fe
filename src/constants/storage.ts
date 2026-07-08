@@ -1,0 +1,9 @@
+export const CREDENTIALS = {
+    AUTHENTICATION_TOKEN: 'AUTHENTICATION_TOKEN',
+    IS_LOGIN: 'IS_LOGIN',
+    USER_INFO: 'USER_INFO',
+}
+
+export const VIEW_MODE = {
+    THEME: 'THEME',
+}

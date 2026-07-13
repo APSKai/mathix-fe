@@ -1,6 +1,8 @@
 export const AUTH_API = {
     LOGIN: '/auth/login',
     REGISTER: '/auth/register',
+    ME: '/auth/me',
+    LOGOUT: '/auth/logout',
 }
 
 export const USER_API = {

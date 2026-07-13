@@ -17,8 +17,9 @@
 
 .login-illustration img {
     position: absolute;
-    left: clamp(-86px, -6vw, -28px);
+    left: 50%;
     bottom: clamp(-58px, -5vh, -18px);
+    transform: translateX(-50%);
     width: min(64vw, 760px);
     max-width: none;
     height: auto;
@@ -42,16 +43,8 @@
     margin: 0 0 30px !important;
     text-align: center;
     font-size: 30px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     line-height: 1.2 !important;
-}
-
-.login-form .ant-form-item {
-    margin-bottom: 20px;
-}
-
-.login-form .ant-form-item-label {
-    padding-bottom: 8px;
 }
 
 .login-form .ant-form-item-label > label {
@@ -62,21 +55,6 @@
 
 .login-required-mark {
     color: #ff4d4f;
-}
-
-.login-form .ant-input,
-.login-form .ant-input-affix-wrapper {
-    height: 32px;
-    background: #ffffff;
-    border-radius: 4px;
-}
-
-.login-form .ant-input {
-    background: #ffffff;
-}
-
-.login-form .ant-input-affix-wrapper .ant-input {
-    background: transparent;
 }
 
 .login-submit-item {
@@ -104,11 +82,6 @@
     margin: 8px 0 16px;
     color: #141414;
     font-size: 13px;
-}
-
-.login-google-button {
-    color: #5f6368;
-    background: #ffffff;
 }
 
 .login-google-button .anticon {

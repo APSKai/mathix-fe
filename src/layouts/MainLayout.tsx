@@ -32,9 +32,9 @@ const MainLayout: React.FC = () => {
                     zIndex: 6,
                 }}
             >
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
                     <div className="logo">
-                        <img src="/logo-dark.png" alt="Logo" />
+                        <img src="/logo.png" alt="Logo" style={{ height: 36, width: 'auto' }} />
                     </div>
                     <Button
                         type="text"

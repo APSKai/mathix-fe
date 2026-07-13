@@ -12,56 +12,53 @@ import {
 
 import { GoogleOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import '@/pages/styles/login.css'
 import { PATHS } from '@/routers/path'
-import { loginAction } from '@/stores/auth/authAction'
+import { AppDispatch } from '@/stores'
+import { getCurrentUserAction, loginAction } from '@/stores/auth/authAction'
 
 const { Title } = Typography
 
-const RequiredLabel: FC<{ children: string }> = ({ children }) => (
-    <span>
-        {children} <span className="login-required-mark">*</span>
-    </span>
-)
-
 const LoginForm: FC = () => {
     const navigate = useNavigate()
-    const location = useLocation()
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const [loginLoading, setLoginLoading] = useState(false)
 
     const onLoginFinish = async (values: any) => {
         setLoginLoading(true)
         try {
-            const loginResponse: any = await dispatch(
+            await dispatch(
                 loginAction({
                     email: values.email,
                     password: values.password,
-                    twoFactorCode: '',
-                    twoFactorRecoveryCode: '',
                 })
-            )
-            if (loginResponse.type === '/auth/login/fulfilled') {
+            ).unwrap()
+
+            const currentUser = await dispatch(getCurrentUserAction()).unwrap()
+
+            if (currentUser) {
                 notification.success({
-                    message: 'Login successfully!',
-                    description: 'Welcome back',
+                    message: 'Đăng nhập thành công!',
+                    description: 'Chào mừng trở lại',
+                    placement: 'bottomRight',
                 })
-                const from =
-                    (location.state as { from?: { pathname: string } })?.from
-                        ?.pathname ?? PATHS.GENERAL
-                navigate(from, { replace: true })
-            } else if (loginResponse.type === '/auth/login/rejected') {
-                notification.error({
-                    message: 'Login failed!',
-                    description: 'Incorrect username or password',
-                })
+                navigate(PATHS.GENERAL)
+                return
             }
-        } catch (e: any) {
+
             notification.error({
-                message: 'Login failed!',
-                description: 'Incorrect username or password',
+                message: 'Đăng nhập thất bại!',
+                description: 'Không thể lấy thông tin tài khoản',
+                placement: 'bottomRight',
+            })
+            return
+        } catch (err) {
+            notification.error({
+                message: 'Đăng nhập thất bại!',
+                description: 'Tài khoản hoặc mật khẩu không đúng',
+                placement: 'bottomRight',
             })
         } finally {
             setLoginLoading(false)
@@ -71,13 +68,13 @@ const LoginForm: FC = () => {
     return (
         <main className="login-page">
             <section className="login-illustration" aria-hidden="true">
-                <img src="/login-background.svg" alt="" />
+                <img src="/login-background.svg" alt="Login background" />
             </section>
 
             <section className="login-panel">
                 <Flex vertical className="login-form-shell">
-                    <Title level={2} className="login-title">
-                        Đăng nhập
+                    <Title level={1} className="login-title">
+                        ĐĂNG NHẬP
                     </Title>
 
                     <Form
@@ -88,7 +85,7 @@ const LoginForm: FC = () => {
                         className="login-form"
                     >
                         <Form.Item
-                            label={<RequiredLabel>Email</RequiredLabel>}
+                            label="Email"
                             name="email"
                             rules={[
                                 {
@@ -101,11 +98,14 @@ const LoginForm: FC = () => {
                                 },
                             ]}
                         >
-                            <Input size="large" />
+                            <Input
+                                placeholder="Nhập email của bạn"
+                                size="large"
+                            />
                         </Form.Item>
 
                         <Form.Item
-                            label={<RequiredLabel>Mật khẩu</RequiredLabel>}
+                            label="Mật khẩu"
                             name="password"
                             rules={[
                                 {
@@ -114,7 +114,10 @@ const LoginForm: FC = () => {
                                 },
                             ]}
                         >
-                            <Input.Password size="large" />
+                            <Input.Password
+                                placeholder="Nhập password"
+                                size="large"
+                            />
                         </Form.Item>
 
                         <Form.Item className="login-submit-item">

@@ -1,20 +1,29 @@
-/** user's role */
-export type Role = 'guest' | 'admin'
-
-export interface LoginDto {
+export interface LoginRequest {
     email: string
     password: string
-    twoFactorCode: string
-    twoFactorRecoveryCode: string
 }
 
-export interface LoginResult {
-    token: string
-    user: any
+export interface LoginResponse {
+    status: boolean
+    message: string
+    accessToken: string
+    refreshToken: string
+    expiresIn: string
 }
 
-export interface LogoutDto {
-    token: string
+export interface RegisterRequest {
+    username: string
+    fullName: string
+    email: string
+    password: string
 }
 
-export interface LogoutResult {}
+export interface RegisterResponse {
+    status: boolean
+    message: string
+}
+
+export interface LogoutResponse {
+    status: boolean
+    message: string
+}

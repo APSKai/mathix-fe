@@ -31,10 +31,10 @@ function App() {
                     themeState === THEMES.DARK
                         ? {
                             colorBgBase: '#141414',
-                            colorTextBase: '#EDEDED',
+                            colorTextBase: '#ffffff',
                         }
                         : {
-                            colorBgBase: '#EDEDED',
+                            colorBgBase: '#ffffff',
                             colorTextBase: '#141414',
                         },
             }}

@@ -35,7 +35,7 @@ http.interceptors.request.use(
 
 http.interceptors.response.use(
     (config: any) => {
-        return config?.data
+        return config
     },
     (error: any) => {
         const status = error?.response?.status

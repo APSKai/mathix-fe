@@ -6,14 +6,18 @@ import { User } from '@/interfaces/user/user.interface'
 import { clearAuthSession } from '@/utils/authSession'
 import { getLocalStorage, putLocalStorage } from '@/utils/storage'
 
-import { loginAction } from './authAction'
+import { getCurrentUserAction, loginAction, logoutAction } from './authAction'
 
 const initialUser: User = {
-    operator_id: '',
-    full_name: '',
-    team_id: '',
-    role_id: 0,
-    access_level: '',
+    uid: '',
+    username: '',
+    fullName: '',
+    email: '',
+    role: 'user',
+    verify: false,
+    avatar: '',
+    createdAt: '',
+    updatedAt: '',
 }
 
 const initialState: AuthSliceState = {
@@ -36,21 +40,28 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(loginAction.fulfilled, (state, action: any) => {
-                state.isAuthenticated = true
-                state.user = action.payload.user
                 putLocalStorage(
                     CREDENTIALS.AUTHENTICATION_TOKEN,
-                    action.payload.token
+                    action.payload.accessToken
                 )
+            })
+            .addCase(getCurrentUserAction.fulfilled, (state, action) => {
+                state.isAuthenticated = true
+                putLocalStorage(CREDENTIALS.IS_LOGIN, 'true')
                 putLocalStorage(
                     CREDENTIALS.USER_INFO,
                     JSON.stringify(action.payload.user)
                 )
-                putLocalStorage(CREDENTIALS.IS_LOGIN, 'true')
+                state.user = action.payload.user
             })
-            .addCase(loginAction.rejected, (state, action) => {
+            .addCase(getCurrentUserAction.rejected, (state, action) => {
                 state.isAuthenticated = false
                 state.user = null
+            })
+            .addCase(logoutAction.fulfilled, (state) => {
+                state.isAuthenticated = false
+                state.user = null
+                clearAuthSession()
             })
     },
 })

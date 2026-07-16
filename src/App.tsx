@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import {ConfigProvider, theme} from 'antd'
+import viVN from 'antd/locale/vi_VN'
 
 import {useSelector} from 'react-redux'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
@@ -14,6 +16,11 @@ function App() {
     const themeState = useSelector((state: any) => state.theme.theme)
     const {defaultAlgorithm, darkAlgorithm} = theme
 
+    useEffect(() => {
+        if (themeState === THEMES.DARK) document.body.setAttribute('theme-mode', 'dark')
+        else document.body.removeAttribute('theme-mode')
+    }, [themeState])
+
     if (innerWidth < SCREEN.WIDTH || innerHeight < SCREEN.HEIGHT) {
         document.documentElement.style.setProperty('--font-size-base', '13px')
     } else {
@@ -22,13 +29,14 @@ function App() {
 
     return (
         <ConfigProvider
+            locale={viVN}
             theme={{
                 algorithm:
                     themeState === THEMES.DARK
                         ? darkAlgorithm
                         : defaultAlgorithm,
-                token:
-                    themeState === THEMES.DARK
+                token: {
+                    ...(themeState === THEMES.DARK
                         ? {
                             colorBgBase: '#141414',
                             colorTextBase: '#ffffff',
@@ -36,7 +44,9 @@ function App() {
                         : {
                             colorBgBase: '#ffffff',
                             colorTextBase: '#141414',
-                        },
+                        }),
+                    fontWeightStrong: 600,
+                },
             }}
         >
             <div>

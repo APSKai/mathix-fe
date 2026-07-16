@@ -2,7 +2,6 @@ import { FC, useState } from 'react'
 
 import {
     Button,
-    Divider,
     Flex,
     Form,
     Input,
@@ -10,9 +9,8 @@ import {
     notification,
 } from 'antd'
 
-import { GoogleOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import '@/pages/styles/login.css'
 import { PATHS } from '@/routers/path'
@@ -23,6 +21,7 @@ const { Title } = Typography
 
 const LoginForm: FC = () => {
     const navigate = useNavigate()
+    const location = useLocation()
     const dispatch = useDispatch<AppDispatch>()
     const [loginLoading, setLoginLoading] = useState(false)
 
@@ -44,7 +43,7 @@ const LoginForm: FC = () => {
                     description: 'Chào mừng trở lại',
                     placement: 'bottomRight',
                 })
-                navigate(PATHS.GENERAL)
+                navigate(location.state?.from || PATHS.GENERAL)
                 return
             }
 
@@ -68,7 +67,7 @@ const LoginForm: FC = () => {
     return (
         <main className="login-page">
             <section className="login-illustration" aria-hidden="true">
-                <img src="/login-background.svg" alt="Login background" />
+                <img src="/login-background.svg" alt="Minh họa đăng nhập" />
             </section>
 
             <section className="login-panel">
@@ -115,7 +114,7 @@ const LoginForm: FC = () => {
                             ]}
                         >
                             <Input.Password
-                                placeholder="Nhập password"
+                                placeholder="Nhập mật khẩu"
                                 size="large"
                             />
                         </Form.Item>
@@ -133,27 +132,18 @@ const LoginForm: FC = () => {
                         </Form.Item>
                     </Form>
 
-                    <Flex justify="space-between" className="login-links">
-                        <Typography.Link href="#">
-                            Quên mật khẩu?
-                        </Typography.Link>
-                        <Typography.Link href="#">
+                    <Flex justify="flex-end" className="login-links">
+                        <Typography.Link
+                            href={PATHS.REGISTER}
+                            onClick={(event) => {
+                                event.preventDefault()
+                                navigate(PATHS.REGISTER)
+                            }}
+                        >
                             Đăng ký tài khoản
                         </Typography.Link>
                     </Flex>
 
-                    <Divider plain className="login-divider">
-                        hoặc
-                    </Divider>
-
-                    <Button
-                        block
-                        size="large"
-                        className="login-google-button"
-                        icon={<GoogleOutlined />}
-                    >
-                        Đăng nhập với Google
-                    </Button>
                 </Flex>
             </section>
         </main>

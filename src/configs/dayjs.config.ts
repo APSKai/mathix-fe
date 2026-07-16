@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import 'dayjs/locale/vi'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
@@ -10,6 +11,7 @@ dayjs.extend(isSameOrBefore)
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(localizedFormat)
+dayjs.locale('vi')
 dayjs.tz.setDefault(dayjs.tz.guess())
 
 export default dayjs

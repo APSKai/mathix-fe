@@ -1,11 +1,20 @@
 export const PATHS = {
     //Common Paths
+    HOME: '/',
     LOGIN: '/login',
+    REGISTER: '/register',
     GENERAL: '/general',
+    EXAMS: '/exams',
+    EXAM_DETAIL: (slug: string) => `/exams/${slug}`,
+    EXAM_OVERVIEW: (slug: string, code: string) => `/exams/${slug}/${code}/overview`,
+    ATTEMPT: (id: string) => `/attempts/${id}`,
+    RESULT: (id: string) => `/attempts/${id}/result`,
+    HISTORY: '/history',
+    LEADERBOARD: '/leaderboard',
     CONNECTION: '/connection',
     SETTINGS: '/settings',
     ABOUT: '/about',
     PROFILE: '/profile',
-    UPLOAD: '/upload',
-    FILE_MANAGEMENT: '/files',
+    ADMIN_QUESTIONS: '/admin/questions',
+    ADMIN_EXAMS: '/admin/exams',
 }

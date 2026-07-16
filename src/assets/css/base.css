@@ -17,8 +17,8 @@
 
 body {
     min-height: 100vh;
-    color: #222;
-    background: white;
+    color: var(--text-strong);
+    background: var(--page-background);
     transition:
         color 0.5s,
         background-color 0.5s;
@@ -226,3 +226,9 @@ html *::-webkit-scrollbar-track {
     color: #ededed !important;
     transition: background-color 0.2s ease-in-out;
 }
+
+.auth-layout { min-height: 100vh; padding: 24px; background: var(--page-background); }
+.auth-layout__brand { display: inline-flex; align-items: center; gap: 9px; width: fit-content; color: var(--text-strong); font-size: 20px; font-weight: 700; }
+.auth-layout__brand img { width: 42px; height: 42px; object-fit: contain; }
+.auth-layout > .ant-layout-content { display: grid; place-items: center; flex: 1; }
+@media (max-width: 640px) { .auth-layout { padding: 12px; } }

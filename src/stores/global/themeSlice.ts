@@ -42,6 +42,8 @@ const themeSlice = createSlice({
             state.theme =
                 state.theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK
             putLocalStorage(VIEW_MODE.THEME, state.theme)
+            if (state.theme === THEMES.DARK) document.body.setAttribute('theme-mode', 'dark')
+            else document.body.removeAttribute('theme-mode')
         },
     },
 })

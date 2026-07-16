@@ -7,8 +7,8 @@ export interface LoginResponse {
     status: boolean
     message: string
     accessToken: string
-    refreshToken: string
-    expiresIn: string
+    expiresIn: number
+    user?: any
 }
 
 export interface RegisterRequest {

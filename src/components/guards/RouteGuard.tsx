@@ -15,8 +15,8 @@ const RouteGuard = ({ children }: any) => {
 
     if (!isAuthenticated) {
         notification.error({
-            message: 'Unauthorized',
-            description: 'Please sign in to continue.',
+            message: 'Bạn chưa đăng nhập',
+            description: 'Vui lòng đăng nhập để tiếp tục.',
         })
         return <Navigate to={PATHS.LOGIN} state={{ from: location }} replace />
     }

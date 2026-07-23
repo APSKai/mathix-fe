@@ -16,7 +16,8 @@ export const QUIZ_API = {
     TAXONOMIES: '/taxonomies',
     EXAMS: '/exams',
     EXAM: (slug: string) => `/exams/${slug}`,
-    EXAM_OVERVIEW: (slug: string, code: string) => `/exams/${slug}/variants/${code}/overview`,
+    EXAM_OVERVIEW: (slug: string, code: string) =>
+        `/exams/${slug}/variants/${code}/overview`,
     START_ATTEMPT: (examId: string) => `/exams/${examId}/attempts`,
     ATTEMPT: (attemptId: string) => `/attempts/${attemptId}`,
     ANSWERS: (attemptId: string) => `/attempts/${attemptId}/answers`,

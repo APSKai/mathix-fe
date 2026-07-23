@@ -1,9 +1,57 @@
-.user-layout { min-height: 100vh; background: var(--page-background); }
-.user-layout__content { width: min(calc(100% - 32px), 1280px); margin: 0 auto; padding: 34px 0 72px; }
-.admin-layout__header.ant-layout-header { height: 64px; padding: 0 20px; display: flex !important; align-items: center; gap: 14px; background: var(--surface) !important; border-bottom: 1px solid var(--border-soft); }
-.admin-layout__brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text-strong); min-width: 210px; }
-.admin-layout__brand img { width: 38px; height: 38px; object-fit: contain; }
-.admin-layout__header .header-content { margin-left: auto; }
-.admin-layout__sider { background: var(--surface) !important; border-right: 1px solid var(--border-soft); }
-.admin-layout__content { padding: 32px; background: var(--page-background); }
-@media (max-width: 640px) { .user-layout__content { width: min(calc(100% - 24px), 1280px); padding-top: 22px; } .admin-layout__content { padding: 18px 12px; } .admin-layout__brand { min-width: 0; } .admin-layout__brand span { display: none; } }
+.user-layout {
+    min-height: 100vh;
+    background: var(--page-background);
+}
+.user-layout__content {
+    width: min(calc(100% - 32px), 1280px);
+    margin: 0 auto;
+    padding: 34px 0 72px;
+}
+.admin-layout__header.ant-layout-header {
+    height: 64px;
+    padding: 0 20px;
+    display: flex !important;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface) !important;
+    border-bottom: 1px solid var(--border-soft);
+}
+.admin-layout__brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    color: var(--text-strong);
+    min-width: 210px;
+}
+.admin-layout__brand img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+}
+.admin-layout__header .header-content {
+    margin-left: auto;
+}
+.admin-layout__sider {
+    background: var(--surface) !important;
+    border-right: 1px solid var(--border-soft);
+}
+.admin-layout__content {
+    padding: 32px;
+    background: var(--page-background);
+}
+@media (max-width: 640px) {
+    .user-layout__content {
+        width: min(calc(100% - 24px), 1280px);
+        padding-top: 22px;
+    }
+    .admin-layout__content {
+        padding: 18px 12px;
+    }
+    .admin-layout__brand {
+        min-width: 0;
+    }
+    .admin-layout__brand span {
+        display: none;
+    }
+}

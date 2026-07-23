@@ -1,13 +1,6 @@
 import { FC, useState } from 'react'
 
-import {
-    Button,
-    Flex,
-    Form,
-    Input,
-    Typography,
-    notification,
-} from 'antd'
+import { Button, Flex, Form, Input, Typography, notification } from 'antd'
 
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -143,7 +136,6 @@ const LoginForm: FC = () => {
                             Đăng ký tài khoản
                         </Typography.Link>
                     </Flex>
-
                 </Flex>
             </section>
         </main>

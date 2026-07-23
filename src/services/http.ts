@@ -43,7 +43,12 @@ http.interceptors.response.use(
         const isLoginRequest = requestUrl.includes(AUTH_API.LOGIN)
         const isRefreshRequest = requestUrl.includes(AUTH_API.REFRESH)
 
-        if (status === 401 && !isLoginRequest && !isRefreshRequest && (!error.config || !error.config._retry)) {
+        if (
+            status === 401 &&
+            !isLoginRequest &&
+            !isRefreshRequest &&
+            (!error.config || !error.config._retry)
+        ) {
             if (error.config) error.config._retry = true
             try {
                 const refresh = await axios.post(
@@ -53,7 +58,10 @@ http.interceptors.response.use(
                 )
                 const accessToken = refresh.data?.accessToken
                 if (accessToken) {
-                    window.localStorage.setItem(CREDENTIALS.AUTHENTICATION_TOKEN, accessToken)
+                    window.localStorage.setItem(
+                        CREDENTIALS.AUTHENTICATION_TOKEN,
+                        accessToken
+                    )
                     error.config.headers = error.config.headers || {}
                     error.config.headers.Authorization = `Bearer ${accessToken}`
                     return http(error.config)

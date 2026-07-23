@@ -2,27 +2,20 @@ import React from 'react'
 
 import { Layout } from 'antd'
 
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
+
+import { PATHS } from '@/routers/path'
 
 const { Content } = Layout
 
 const NotAuthenticatedLayout: React.FC = () => {
     return (
-        <Layout
-            style={{
-                height: '100vh',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
-        >
-            <Content
-                style={{
-                    width: '100%',
-                    padding: '24px',
-                    borderRadius: '8px',
-                }}
-            >
+        <Layout className="auth-layout">
+            <Link className="auth-layout__brand" to={PATHS.EXAMS}>
+                <img src="/logo.png" alt="Mathix" />
+                <span>Mathix</span>
+            </Link>
+            <Content>
                 <Outlet />
             </Content>
         </Layout>

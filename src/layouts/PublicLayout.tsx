@@ -6,17 +6,15 @@ import { Outlet } from 'react-router-dom'
 
 import SiteHeader from '@/components/commons/SiteHeader'
 
-const { Content } = Layout
-
-const MainLayout: React.FC = () => {
+const PublicLayout: React.FC = () => {
     return (
         <Layout className="user-layout">
             <SiteHeader />
-            <Content className="user-layout__content">
+            <Layout.Content className="user-layout__content">
                 <Outlet />
-            </Content>
+            </Layout.Content>
         </Layout>
     )
 }
 
-export default MainLayout
+export default PublicLayout

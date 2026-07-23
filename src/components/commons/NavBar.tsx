@@ -1,73 +1,61 @@
-import React, {useMemo} from 'react'
+import React, { useMemo } from 'react'
 
-import {Menu, Tooltip} from 'antd'
+import { Menu, Tooltip } from 'antd'
 
-import {
-    AppstoreOutlined,
-    CloudUploadOutlined,
-    FolderOpenOutlined,
-} from '@ant-design/icons'
-import {useLocation, useNavigate} from 'react-router-dom'
-import {PATHS} from '@/routers/path'
+import { EditOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+
+import { PATHS } from '@/routers/path'
 
 interface NavBarProps {
     collapsed: boolean
 }
 
-const NavBar: React.FC<NavBarProps> = ({collapsed}) => {
+const NavBar: React.FC<NavBarProps> = ({ collapsed }) => {
     const navigate = useNavigate()
     const location = useLocation()
-
+    const role = useSelector((state: any) => state.auth.user?.role)
     const items = useMemo(() => {
-        return [
-            {
-                key: PATHS.GENERAL,
-                icon: <AppstoreOutlined/>,
-                label: collapsed ? (
-                    <Tooltip title={'Chung'}>
-                        <span>{'Chung'}</span>
-                    </Tooltip>
-                ) : (
-                    'Chung'
-                ),
-            },
-            {
-                key: PATHS.UPLOAD,
-                icon: <CloudUploadOutlined/>,
-                label: collapsed ? (
-                    <Tooltip title={'Upload'}>
-                        <span>{'Upload'}</span>
-                    </Tooltip>
-                ) : (
-                    'Upload'
-                ),
-            },
-            {
-                key: PATHS.FILE_MANAGEMENT,
-                icon: <FolderOpenOutlined/>,
-                label: collapsed ? (
-                    <Tooltip title={'Quan ly file'}>
-                        <span>{'Quan ly file'}</span>
-                    </Tooltip>
-                ) : (
-                    'Quan ly file'
-                ),
-            },
-        ].filter(Boolean)
-    }, [collapsed])
+        const base =
+            role === 'admin'
+                ? [
+                      {
+                          key: PATHS.ADMIN_QUESTIONS,
+                          icon: <EditOutlined />,
+                          label: 'Ngân hàng câu hỏi',
+                      },
+                      {
+                          key: PATHS.ADMIN_EXAMS,
+                          icon: <EditOutlined />,
+                          label: 'Nhóm đề và mã đề',
+                      },
+                  ]
+                : []
+        return base.map((item) => ({
+            ...item,
+            label: collapsed ? (
+                <Tooltip title={item.label}>
+                    <span>{item.label}</span>
+                </Tooltip>
+            ) : (
+                item.label
+            ),
+        }))
+    }, [collapsed, role])
 
+    const selected = location.pathname.startsWith('/admin/questions')
+        ? PATHS.ADMIN_QUESTIONS
+        : location.pathname.startsWith('/admin/exams')
+          ? PATHS.ADMIN_EXAMS
+          : location.pathname
     return (
         <Menu
             mode="vertical"
-            selectedKeys={[location.pathname]}
-            style={{
-                borderRight: 0,
-                height: '100%',
-                transition: 'all 0.3s ease',
-            }}
-            onClick={({key}) => navigate(key)}
-            // @ts-ignore
-            items={items}
+            selectedKeys={[selected]}
+            style={{ borderRight: 0, height: '100%' }}
+            onClick={({ key }) => navigate(key)}
+            items={items as any}
         />
     )
 }

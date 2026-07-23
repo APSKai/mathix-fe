@@ -19,8 +19,8 @@ const ThemeButton: React.FC = () => {
         <Tooltip
             title={
                 themeMode === 'dark'
-                    ? 'Switch to Light Mode'
-                    : 'Switch to Dark Mode'
+                    ? 'Chuyển sang giao diện sáng'
+                    : 'Chuyển sang giao diện tối'
             }
         >
             <Button

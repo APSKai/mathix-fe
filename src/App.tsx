@@ -1,23 +1,25 @@
 import { useEffect } from 'react'
-import {ConfigProvider, theme} from 'antd'
+
+import { ConfigProvider, theme } from 'antd'
+
 import viVN from 'antd/locale/vi_VN'
+import { useSelector } from 'react-redux'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
-import {useSelector} from 'react-redux'
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
-
-import {SCREEN, THEMES} from '@/constants/theme'
-import {useWindowSize} from '@/hooks/useWindowSize'
+import { SCREEN, THEMES } from '@/constants/theme'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import AppRouter from '@/routers/router'
 
 import NotFound from './pages/commons/NotFound'
 
 function App() {
-    const {innerWidth, innerHeight} = useWindowSize()
+    const { innerWidth, innerHeight } = useWindowSize()
     const themeState = useSelector((state: any) => state.theme.theme)
-    const {defaultAlgorithm, darkAlgorithm} = theme
+    const { defaultAlgorithm, darkAlgorithm } = theme
 
     useEffect(() => {
-        if (themeState === THEMES.DARK) document.body.setAttribute('theme-mode', 'dark')
+        if (themeState === THEMES.DARK)
+            document.body.setAttribute('theme-mode', 'dark')
         else document.body.removeAttribute('theme-mode')
     }, [themeState])
 
@@ -38,13 +40,13 @@ function App() {
                 token: {
                     ...(themeState === THEMES.DARK
                         ? {
-                            colorBgBase: '#141414',
-                            colorTextBase: '#ffffff',
-                        }
+                              colorBgBase: '#141414',
+                              colorTextBase: '#ffffff',
+                          }
                         : {
-                            colorBgBase: '#ffffff',
-                            colorTextBase: '#141414',
-                        }),
+                              colorBgBase: '#ffffff',
+                              colorTextBase: '#141414',
+                          }),
                     fontWeightStrong: 600,
                 },
             }}
@@ -54,7 +56,7 @@ function App() {
                     <Router>
                         <Routes>
                             {AppRouter}
-                            <Route path="*" element={<NotFound/>}/>
+                            <Route path="*" element={<NotFound />} />
                         </Routes>
                     </Router>
                 </>

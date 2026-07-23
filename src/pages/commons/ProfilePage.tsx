@@ -1,244 +1,164 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { Avatar, Button, Card, Form, Input, Select, notification } from 'antd'
+import {
+    Avatar,
+    Button,
+    Card,
+    Form,
+    Input,
+    Tag,
+    Typography,
+    notification,
+} from 'antd'
 
-import { ReloadOutlined, UserOutlined } from '@ant-design/icons'
+import {
+    EditOutlined,
+    MailOutlined,
+    SaveOutlined,
+    UserOutlined,
+} from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { ROLES, TEAMS } from '@/constants/role'
+import UserService from '@/services/user'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
 
 const ProfilePage = () => {
     const dispatch = useDispatch()
-    const [activeTabKey, setActiveTabKey] = useState<string>('profile')
-    const [form] = Form.useForm()
-    const [passwordForm] = Form.useForm()
     const currentUser = useSelector((state: any) => state.auth.user)
-    const tabListNoTitle = [
-        {
-            key: 'profile',
-            label: 'User Info',
-        },
-        {
-            key: 'password',
-            label: 'Password',
-        },
-    ]
+    const [form] = Form.useForm()
+    const [editing, setEditing] = useState(false)
+    const [saving, setSaving] = useState(false)
 
     useEffect(() => {
-        if (currentUser) {
-            form.setFieldsValue(currentUser)
-        }
-    }, [currentUser])
+        if (currentUser) form.setFieldsValue({ fullName: currentUser.fullName })
+    }, [currentUser, form])
 
-    const onTabChange = (key: string) => {
-        setActiveTabKey(key)
-    }
-
-    const handleUpdateProfile = async (values: any) => {
+    const save = async (values: { fullName: string }) => {
+        if (!currentUser?.uid) return
+        setSaving(true)
         try {
-            let res: any
-            if (res.status === 200) {
-                notification.success({
-                    message: 'Update user information successfully',
-                })
-                dispatch(getCurrentUserAction())
-            } else {
-                notification.warning({
-                    // @ts-ignore
-                    message: res.message,
-                })
-            }
-        } catch (error) {
-            console.error('Error updating profile:', error)
+            await UserService.update(currentUser.uid, values)
+            await dispatch(getCurrentUserAction() as any)
+            setEditing(false)
+            notification.success({ message: 'Đã cập nhật hồ sơ' })
+        } catch (error: any) {
             notification.error({
-                message: 'Update user information failed',
+                message: 'Không thể cập nhật hồ sơ',
+                description:
+                    error?.response?.data?.message || 'Vui lòng thử lại.',
             })
+        } finally {
+            setSaving(false)
         }
-    }
-
-    const handleChangePassword = async (values: any) => {
-        if (values.newPassword !== values.confirmPassword) {
-            return notification.error({
-                message: 'Confirm password is not match',
-            })
-        }
-        try {
-            let res: any
-            if (res.status === 200) {
-                notification.success({
-                    message: 'Change password successfully',
-                })
-            } else {
-                notification.error(res.data)
-            }
-            passwordForm.resetFields()
-        } catch (error) {
-            console.error('Error changing password:', error)
-            notification.error({
-                message: 'Change password failed',
-            })
-        }
-    }
-
-    const contentListNoTitle: Record<string, any> = {
-        profile: (
-            <div>
-                <Form
-                    form={form}
-                    layout="vertical"
-                    initialValues={currentUser}
-                    onFinish={handleUpdateProfile}
-                    style={{ marginTop: 24, maxWidth: 500 }}
-                >
-                    <div
-                        style={{
-                            display: 'flex',
-                            gap: '24px',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Avatar
-                            style={{ width: 100, height: 100 }}
-                            icon={<UserOutlined style={{ fontSize: 50 }} />}
-                        />
-                    </div>
-                    <br />
-                    <Form.Item
-                        name="full_name"
-                        label="Full name"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your full name',
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Input your full name" />
-                    </Form.Item>
-                    <Form.Item name="operator_id" label="Username">
-                        <Input disabled />
-                    </Form.Item>
-                    <Form.Item name="access_level" label="Access level">
-                        <Input disabled />
-                    </Form.Item>
-                    <Form.Item
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please choose your team',
-                            },
-                        ]}
-                        name="team_id"
-                        label="Team"
-                    >
-                        <Select allowClear placeholder="Choose a team">
-                            {TEAMS.map((team) => (
-                                <Select.Option value={team.team_id}>
-                                    {team.name}
-                                </Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                    <Form.Item name="role_id" label="Role">
-                        <Select disabled allowClear placeholder="Choose a role">
-                            {ROLES.map((role) => (
-                                <Select.Option value={role.role_id}>
-                                    {role.role_name}
-                                </Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            Save
-                        </Button>
-                        <Button
-                            type="default"
-                            style={{ marginLeft: 8 }}
-                            onClick={() => form.resetFields()}
-                        >
-                            Reset
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-        ),
-        password: (
-            <div>
-                <Form
-                    style={{ marginTop: 24, maxWidth: 500 }}
-                    layout="vertical"
-                    form={passwordForm}
-                    onFinish={handleChangePassword}
-                >
-                    <Form.Item
-                        name="oldPassword"
-                        label="Current password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your current password',
-                            },
-                        ]}
-                    >
-                        <Input.Password placeholder="Input your current password" />
-                    </Form.Item>
-                    <Form.Item
-                        name="newPassword"
-                        label="New password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your new password',
-                            },
-                        ]}
-                    >
-                        <Input.Password placeholder="Input your new password" />
-                    </Form.Item>
-                    <Form.Item
-                        name="confirmPassword"
-                        label="Confirm password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your confirm password',
-                            },
-                        ]}
-                    >
-                        <Input.Password placeholder="Input your confirm password" />
-                    </Form.Item>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            Change password
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-        ),
     }
 
     return (
-        <div style={{ width: '100%', height: '100%' }}>
-            <Card
-                style={{ width: '100%', height: '100%' }}
-                tabList={tabListNoTitle}
-                activeTabKey={activeTabKey}
-                tabBarExtraContent={
-                    <Button
-                        icon={<ReloadOutlined />}
-                        onClick={() => {}}
-                        type="link"
+        <div className="profile-page">
+            <section className="profile-hero">
+                <div>
+                    <Typography.Text className="eyebrow">
+                        HỒ SƠ CÁ NHÂN
+                    </Typography.Text>
+                    <Typography.Title>Thông tin của bạn</Typography.Title>
+                    <Typography.Paragraph type="secondary">
+                        Giữ hồ sơ luôn chính xác để kết quả học tập được hiển
+                        thị đúng trên Mathix.
+                    </Typography.Paragraph>
+                </div>
+                <Avatar
+                    size={92}
+                    src={currentUser?.avatar}
+                    icon={<UserOutlined />}
+                />
+            </section>
+            <Card className="profile-card">
+                <div className="profile-card__heading">
+                    <div>
+                        <Typography.Title level={3}>
+                            Thông tin tài khoản
+                        </Typography.Title>
+                        <Typography.Text type="secondary">
+                            Các trường định danh được quản lý bởi Firebase.
+                        </Typography.Text>
+                    </div>
+                    {!editing && (
+                        <Button
+                            icon={<EditOutlined />}
+                            onClick={() => setEditing(true)}
+                        >
+                            Chỉnh sửa
+                        </Button>
+                    )}
+                </div>
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={save}
+                    className="profile-form"
+                >
+                    <Form.Item
+                        label="Họ và tên"
+                        name="fullName"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập họ và tên',
+                            },
+                        ]}
                     >
-                        Refresh
-                    </Button>
-                }
-                onTabChange={onTabChange}
-                tabProps={{
-                    size: 'middle',
-                }}
-            >
-                {contentListNoTitle[activeTabKey]}
+                        <Input disabled={!editing} size="large" />
+                    </Form.Item>
+                    <div className="profile-readonly-grid">
+                        <div>
+                            <span>
+                                <UserOutlined /> Tên đăng nhập
+                            </span>
+                            <strong>{currentUser?.username || '—'}</strong>
+                        </div>
+                        <div>
+                            <span>
+                                <MailOutlined /> Địa chỉ email
+                            </span>
+                            <strong>{currentUser?.email || '—'}</strong>
+                        </div>
+                        <div>
+                            <span>Vai trò</span>
+                            <strong>
+                                <Tag
+                                    color={
+                                        currentUser?.role === 'admin'
+                                            ? 'gold'
+                                            : 'blue'
+                                    }
+                                >
+                                    {currentUser?.role === 'admin'
+                                        ? 'Quản trị viên'
+                                        : 'Học viên'}
+                                </Tag>
+                            </strong>
+                        </div>
+                    </div>
+                    {editing && (
+                        <div className="profile-actions">
+                            <Button
+                                onClick={() => {
+                                    setEditing(false)
+                                    form.resetFields()
+                                }}
+                            >
+                                Hủy
+                            </Button>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                icon={<SaveOutlined />}
+                                loading={saving}
+                            >
+                                Lưu thay đổi
+                            </Button>
+                        </div>
+                    )}
+                </Form>
             </Card>
         </div>
     )

@@ -6,7 +6,8 @@ export const PATHS = {
     GENERAL: '/general',
     EXAMS: '/exams',
     EXAM_DETAIL: (slug: string) => `/exams/${slug}`,
-    EXAM_OVERVIEW: (slug: string, code: string) => `/exams/${slug}/${code}/overview`,
+    EXAM_OVERVIEW: (slug: string, code: string) =>
+        `/exams/${slug}/${code}/overview`,
     ATTEMPT: (id: string) => `/attempts/${id}`,
     RESULT: (id: string) => `/attempts/${id}/result`,
     HISTORY: '/history',
